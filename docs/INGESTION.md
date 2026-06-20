@@ -1,0 +1,39 @@
+# Ingestion Plan
+
+Sublet Scout should ingest listings only from allowed sources and preserve enough source metadata for trust, deduplication, and cleanup.
+
+## Source Strategy
+
+- Facebook group posts: use user-submitted URLs, approved exports, or a moderation workflow. Do not bypass platform access controls.
+- UW Sublets: build a structured adapter if the site allows automated access or provides feeds.
+- Craigslist Madison: respect the site's terms and rate limits. Store source URL, title, price, location, body text, posted date, and image URLs.
+- Manual campus import: support CSV upload and form submissions for club chats, GroupMe threads, and department boards.
+
+## Normalization
+
+Every imported listing should map to:
+
+- category: sublease, lease takeover, roommate, furniture, vehicle, or other
+- normalized price and price per bed
+- address and geocode confidence
+- lease start and end dates
+- amenities and utilities
+- source URL and source type
+- image URLs
+- extracted contact instructions
+- duplicate fingerprint
+
+Missing fields should render as `N/A` in the UI instead of being silently hidden.
+
+## AI Pipeline
+
+1. Extract structured fields from raw post text with an LLM JSON schema.
+2. Geocode addresses and cache coordinates.
+3. Generate text embeddings for title, description, amenities, and roommate preferences.
+4. Use vector similarity for roommate matching and semantic search.
+5. Use duplicate detection that combines normalized address, price, dates, image hashes, and embedding similarity.
+6. Send low-confidence records to a review queue before publishing.
+
+## Trust And Safety
+
+Sublet Scout should remain a discovery platform, not a direct messaging platform. Listing cards should point users back to the source and make verification status clear.

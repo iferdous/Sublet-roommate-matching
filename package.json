@@ -1,0 +1,25 @@
+{
+  "name": "sublet-roommate-matching",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "./node_modules/.bin/vite --host 0.0.0.0 --port 5174 --strictPort",
+    "build": "./node_modules/.bin/tsc && ./node_modules/.bin/vite build",
+    "preview": "./node_modules/.bin/vite preview --host 0.0.0.0 --port 4174",
+    "test": "./node_modules/.bin/vitest run"
+  },
+  "dependencies": {
+    "lucide-react": "^0.468.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  },
+  "devDependencies": {
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "@vitejs/plugin-react": "^6.0.2",
+    "typescript": "^6.0.3",
+    "vite": "^8.0.16",
+    "vitest": "^4.1.9"
+  }
+}
