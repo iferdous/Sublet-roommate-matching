@@ -1,16 +1,22 @@
 export type ListingCategory =
+  | "All"
   | "Sublease"
   | "Lease Takeover"
   | "Roommate"
   | "Furniture"
-  | "Vehicle";
+  | "Vehicle"
+  | "Textbooks"
+  | "Electronics"
+  | "Parking"
+  | "Free";
 
 export type ListingSource =
   | "Facebook"
   | "UW Sublets"
   | "Craigslist"
   | "Campus Import"
-  | "Manual";
+  | "Manual"
+  | "Imported Feed";
 
 export type Amenity =
   | "Balcony"
@@ -24,7 +30,13 @@ export type Amenity =
   | "LGBTQ+ Friendly"
   | "Cat Friendly"
   | "Bus Line"
-  | "Natural Light";
+  | "Natural Light"
+  | "Air Conditioning"
+  | "Gym"
+  | "Study Room"
+  | "Bike Storage"
+  | "Free"
+  | "Negotiable";
 
 export type Coordinates = {
   lat: number;
@@ -36,11 +48,13 @@ export type Listing = {
   title: string;
   category: ListingCategory;
   source: ListingSource;
+  sourceUrl?: string;
   verified: boolean;
   neighborhood: string;
   address?: string;
   coordinates?: Coordinates;
   image: string;
+  gallery?: string[];
   price: number;
   priceLabel?: string;
   bedrooms?: number;
@@ -59,11 +73,29 @@ export type Listing = {
   postedAt: string;
   duplicateGroup?: string;
   urgency?: "Low" | "Medium" | "High";
+  floor?: string;
+  extractionConfidence?: number;
+  sourceSection?: string;
+  hiddenDuplicate?: boolean;
+  selectedDistance?: {
+    miles: number | null;
+    walkMinutes: number | null;
+    bikeMinutes: number | null;
+    busMinutes: number | null;
+  };
+  commutes?: Array<{
+    landmark: Landmark;
+    miles: number | null;
+    walkMinutes: number | null;
+    bikeMinutes: number | null;
+    busMinutes: number | null;
+  }>;
 };
 
 export type Landmark = {
   id: string;
   name: string;
+  type?: "Campus" | "Madison" | "Transit" | "Health" | "Nightlife";
   coordinates: Coordinates;
 };
 
@@ -100,6 +132,18 @@ export type SourceConfig = {
   name: string;
   url: string;
   kind: ListingSource;
-  status: "Prototype" | "Manual review required" | "Ready for API";
+  status: "Prototype" | "Manual review required" | "Ready for API" | "Connected";
   note: string;
 };
+
+export type SortOption =
+  | "Recommended"
+  | "Lowest price"
+  | "Highest price"
+  | "Newest"
+  | "Closest to selected place"
+  | "Highest AI match"
+  | "Most urgent"
+  | "Verified first";
+
+export type AppView = "market" | "ai" | "roommates" | "map" | "post";
